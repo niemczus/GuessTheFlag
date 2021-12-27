@@ -7,6 +7,15 @@
 
 import SwiftUI
 
+extension Image {
+    func flagImage() -> some View {
+        self
+            .renderingMode(.original)
+            .clipShape(Capsule())
+            .shadow(radius: 5)
+    }
+}
+
 struct ContentView: View {
     @State private var showingScore = false
     @State private var showingEnd = false
@@ -48,12 +57,9 @@ struct ContentView: View {
                     ForEach(0..<3) { number in
                         Button {
                             flagTapped(number)
-                            
                         } label: {
                             Image(countries[number])
-                                .renderingMode(.original)
-                                .clipShape(Capsule())
-                                .shadow(radius: 5)
+                                .flagImage()
                         }
                     }
                 }
@@ -101,12 +107,12 @@ struct ContentView: View {
     
     func askQuestion() {
         if questionCounter < 7 {
-        countries.shuffle()
-        correctAnswer = Int.random(in: 0...2)
+            countries.shuffle()
+            correctAnswer = Int.random(in: 0...2)
+            questionCounter += 1
         } else {
             showingEnd = true
         }
-        questionCounter += 1
     }
     
     func reset() {
